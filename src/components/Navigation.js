@@ -43,8 +43,8 @@ const Navigation = () => {
                             <Nav.Link href="/demo" className="">
                                 Demo
                             </Nav.Link>
-                            <Nav.Link href="/" className="">
-                                Home
+                            <Nav.Link href="/recipe/create" className="">
+                                Create recipe
                             </Nav.Link>
                             <Nav.Link href="/dashboard">Recipes</Nav.Link>
                             <NavDropdown

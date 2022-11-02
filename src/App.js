@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import DemoPage from "./pages/DemoPage";
 import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./pages/DashboardPage";
+import CreateRecipePage from "./pages/CreateRecipePage";
 
 function App() {
     const {currentUser} = useAuth();
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/register" element={!currentUser ? <RegisterPage/> : <Navigate to="/dashboard"/>}/>
                     <Route path="/demo" element={currentUser ? <DemoPage/> : <Navigate to="/login"/>}/>
                     <Route path="/dashboard" element={currentUser ? <DashboardPage/> : <Navigate to="/"/>}/>
+                    <Route path="/recipe/create" element={currentUser ? <CreateRecipePage/> : <Navigate to="/"/>}/>
                 </Routes>
             </Layout>
         </BrowserRouter>
