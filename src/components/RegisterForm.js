@@ -3,6 +3,11 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "../context/AuthContext";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
+const DEFAULT_PROFILE_IMAGE_URL =
+    "https://firebasestorage.googleapis.com/v0/b/cookbook-ac1d9.appspot.com/o/profile-default.png?alt=media&token=1ebc7234-5bb1-4d61-b792-df8aa18a373a";
 
 const RegisterForm = () => {
     const { register } = useAuth();
@@ -17,7 +22,7 @@ const RegisterForm = () => {
     const handleSubmit = async (ev) => {
         ev.preventDefault();
         setLoading(true);
-        const nameValidationPattern = /^[a-zA-Z]{2,20}$/
+        const nameValidationPattern = /^[a-zA-Z]{2,20}$/;
 
         if (passwordConfirmRef.current.value !== passwordRef.current.value) {
             setLoading(false);
@@ -35,11 +40,20 @@ const RegisterForm = () => {
         }
 
         try {
-            await register(emailRef.current.value, passwordRef.current.value);
+            const response = await register(
+                emailRef.current.value,
+                passwordRef.current.value
+            );
+            const user = response.user;
+
+            await setDoc(doc(db, "users", user.uid), {
+                firstName: firstNameRef.current.value,
+                lastName: lastNameRef.current.value,
+                image_url: DEFAULT_PROFILE_IMAGE_URL,
+            });
         } catch (err) {
             const error = err.message;
-            // console.log(err);
-            // console.log(err.message);
+            
             if (error === "Firebase: Error (auth/invalid-email).") {
                 setError("Invalid email address");
             } else if (
