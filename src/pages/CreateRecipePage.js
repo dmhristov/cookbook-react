@@ -1,17 +1,48 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-import  Button  from "react-bootstrap/Button";
+import Button from "react-bootstrap/Button";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
+import { db, storage } from "../firebase";
+import { addDoc, Timestamp, collection } from "firebase/firestore";
 
 const CreateRecipePage = () => {
     const titleRef = useRef();
+    const ingredientsRef = useRef();
+    const descriptionRef = useRef();
+    const [image, setImage] = useState(null);
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
+
+    const handleSubmit = async (ev) => {
+        ev.preventDefault();
+        const imageRef = ref(storage, `recipe-images/${v4() + image?.name}`);
+        await uploadBytes(imageRef, image);
+        const imageUrl = await getDownloadURL(imageRef);
+
+        await addDoc(collection(db, "recipes"), {
+            authorId: currentUser.uid,
+            title: titleRef.current.value,
+            description: descriptionRef.current.value,
+            ingredients: ingredientsRef.current.value,
+            imageUrl: imageUrl,
+            date: Timestamp.now(),
+        });
+
+        navigate("/");
+    };
+
+    const handleImageUpload = (ev) => {
+        setImage(ev.target.files[0]);
+    };
 
     return (
         <Container className="d-flex flex-column align-items-center">
             <h1 className="mb-4">Create Recipe</h1>
-            <Form className="my-2">
+            <Form onSubmit={handleSubmit} className="my-2">
                 <Form.Group className="mb-3">
                     <Form.Label>Title</Form.Label>
                     <Form.Control
@@ -25,7 +56,7 @@ const CreateRecipePage = () => {
                     <Form.Label>Ingredients</Form.Label>
                     <Form.Control
                         required
-                        ref={titleRef}
+                        ref={ingredientsRef}
                         as="textarea"
                         rows={5}
                         placeholder="Ingredients"
@@ -35,7 +66,7 @@ const CreateRecipePage = () => {
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                         required
-                        ref={titleRef}
+                        ref={descriptionRef}
                         as="textarea"
                         rows={5}
                         placeholder="Description"
@@ -47,7 +78,7 @@ const CreateRecipePage = () => {
                         required
                         type="file"
                         placeholder="Upload image"
-                        // onChange={handleImageUpload}
+                        onChange={handleImageUpload}
                     />
                 </Form.Group>
                 <Button variant="primary" type="submit">
