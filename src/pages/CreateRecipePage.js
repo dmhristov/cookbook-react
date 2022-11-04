@@ -29,6 +29,7 @@ const CreateRecipePage = () => {
             description: descriptionRef.current.value,
             ingredients: ingredientsRef.current.value,
             imageUrl: imageUrl,
+            likes: 0,
             date: Timestamp.now(),
         });
 
