@@ -1,19 +1,34 @@
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { db } from "../firebase";
 
-const RecipeCard = (props) => {
+const RecipeCard = ({ title, fromDate, imageUrl, authorId }) => {
+    const [authorNames, setAuthorNames] = useState("");
+
+    useEffect(() => {
+        const getAuthorNames = async () => {
+            const response = await getDoc(doc(db, "users", authorId));
+            const authorData = response.data();
+            setAuthorNames(`${authorData.firstName} ${authorData.lastName}`);
+        };
+        getAuthorNames();
+    }, []);
+
     return (
         <Card style={{ width: "20rem", height: "23rem" }}>
             <Card.Img
                 variant="top"
-                src="https://firebasestorage.googleapis.com/v0/b/cookbook-ac1d9.appspot.com/o/profile-images%2Flogin_image.jpg?alt=media&token=8a9f8ce7-3cbb-47e7-9c91-14cc4a67961f"
+                src={imageUrl}
+                style={{ height: "11.5rem" }}
             />
             <Card.Body>
-                <Card.Title>Recipe title</Card.Title>
+                <Card.Title>{title}</Card.Title>
                 <div>
                     <div>
-                        <p>Author: Author Name</p>
-                        <p>From: 28/10/2022</p>
+                        <p>Author: {authorNames}</p>
+                        <p>From: {fromDate}</p>
                     </div>
                 </div>
                 <Button variant="primary">Recipe details</Button>
