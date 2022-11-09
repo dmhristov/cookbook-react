@@ -19,7 +19,8 @@ const DashboardNav = ({
         filterCategory(category);
     };
 
-    const handleSearch = () => {
+    const handleSearch = (ev) => {
+        ev.preventDefault();
         const value = searchInputRef.current.value.trim();
         if (!value) {
             return resetFilter();
@@ -58,7 +59,7 @@ const DashboardNav = ({
                             })}
                         </NavDropdown>
                     </Nav>
-                    <Form className="d-flex">
+                    <Form onSubmit={handleSearch} className="d-flex">
                         <Form.Control
                             type="search"
                             placeholder="Search"
@@ -66,10 +67,7 @@ const DashboardNav = ({
                             aria-label="Search"
                             ref={searchInputRef}
                         />
-                        <Button
-                            variant="outline-primary"
-                            onClick={handleSearch}
-                        >
+                        <Button variant="outline-primary" type="submit">
                             Search
                         </Button>
                     </Form>
