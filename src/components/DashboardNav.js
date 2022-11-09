@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -5,10 +6,25 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-const DashboardNav = ({ categories, filterCategory, resetFilter }) => {
+const DashboardNav = ({
+    categories,
+    filterCategory,
+    resetFilter,
+    onSearch,
+}) => {
+    const searchInputRef = useRef();
+
     const handleCategoryChange = (ev) => {
         const category = ev.target.value;
         filterCategory(category);
+    };
+
+    const handleSearch = () => {
+        const value = searchInputRef.current.value.trim();
+        if (!value) {
+            return resetFilter();
+        }
+        onSearch(value);
     };
 
     return (
@@ -48,8 +64,14 @@ const DashboardNav = ({ categories, filterCategory, resetFilter }) => {
                             placeholder="Search"
                             className="me-2"
                             aria-label="Search"
+                            ref={searchInputRef}
                         />
-                        <Button variant="outline-primary">Search</Button>
+                        <Button
+                            variant="outline-primary"
+                            onClick={handleSearch}
+                        >
+                            Search
+                        </Button>
                     </Form>
                 </Navbar.Collapse>
             </Container>

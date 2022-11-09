@@ -23,6 +23,7 @@ const DashboardPage = () => {
             setRecipes(data);
         };
         getRecipes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const filterByCategory = (currentCategory) => {
@@ -36,11 +37,21 @@ const DashboardPage = () => {
         setIsFiltering(false);
     };
 
+    const handleSearch = (data) => {
+        setFilteredRecipes(
+            recipes.filter((r) =>
+                r.title.toLowerCase().includes(data.toLowerCase())
+            )
+        );
+        setIsFiltering(true);
+    };
+
     return (
         <Stack gap={4} className="d-flex flex-column">
             <DashboardNav
                 categories={CATEGORIES}
                 filterCategory={filterByCategory}
+                onSearch={handleSearch}
                 resetFilter={resetFilter}
             ></DashboardNav>
             <Container className="flex-grow-1 m-auto">
