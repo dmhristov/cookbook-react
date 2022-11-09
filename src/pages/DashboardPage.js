@@ -24,7 +24,6 @@ const DashboardPage = () => {
 
     return (
         <Stack gap={4} className="d-flex flex-column">
-            {/* <h1>Look at our amazing collection of recipes!</h1> */}
             <DashboardNav></DashboardNav>
             <Container className="flex-grow-1 m-auto">
                 <Row className="gap-2">
