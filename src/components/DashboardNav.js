@@ -5,7 +5,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-const DashboardNav = ({ categories }) => {
+const DashboardNav = ({ categories, filterCategory, resetFilter }) => {
+    const handleCategoryChange = (ev) => {
+        const category = ev.target.value;
+        filterCategory(category);
+    };
+
     return (
         <Navbar className="" bg="light" expand="lg">
             <Container>
@@ -20,9 +25,17 @@ const DashboardNav = ({ categories }) => {
                             title="Categories"
                             id="navbarScrollingDropdown"
                         >
-                            {categories.map((category) => {
+                            <NavDropdown.Item as="button" onClick={resetFilter}>
+                                All
+                            </NavDropdown.Item>
+                            {categories.map((category, idx) => {
                                 return (
-                                    <NavDropdown.Item href="#action3">
+                                    <NavDropdown.Item
+                                        key={idx}
+                                        as="button"
+                                        onClick={handleCategoryChange}
+                                        value={category}
+                                    >
                                         {category}
                                     </NavDropdown.Item>
                                 );

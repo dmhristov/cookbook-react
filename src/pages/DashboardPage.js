@@ -6,11 +6,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-
-const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Dessert",]
+import { CATEGORIES } from "../constants/constants";
 
 const DashboardPage = () => {
     const [recipes, setRecipes] = useState([]);
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const [isFiltering, setIsFiltering] = useState(false);
     const recipesCollectionRef = collection(db, "recipes");
 
     useEffect(() => {
@@ -24,12 +25,27 @@ const DashboardPage = () => {
         getRecipes();
     }, []);
 
+    const filterByCategory = (currentCategory) => {
+        setFilteredRecipes(
+            recipes.filter((r) => r.category === currentCategory)
+        );
+        setIsFiltering(true);
+    };
+
+    const resetFilter = () => {
+        setIsFiltering(false);
+    };
+
     return (
         <Stack gap={4} className="d-flex flex-column">
-            <DashboardNav categories={CATEGORIES}></DashboardNav>
+            <DashboardNav
+                categories={CATEGORIES}
+                filterCategory={filterByCategory}
+                resetFilter={resetFilter}
+            ></DashboardNav>
             <Container className="flex-grow-1 m-auto">
                 <Row className="gap-2">
-                    {recipes.map((r) => (
+                    {(!isFiltering ? recipes : filteredRecipes).map((r) => (
                         <RecipeCard
                             key={r.id}
                             imageUrl={r.imageUrl}

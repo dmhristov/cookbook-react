@@ -45,7 +45,7 @@ const CreateRecipePage = () => {
 
     return (
         <Container className="d-flex flex-column align-items-center">
-            <h1 className="mb-4">Create Recipe</h1>
+            <h1 className="mb-4 mt-2">Create Recipe</h1>
             <Form onSubmit={handleSubmit} className="my-2">
                 <Form.Group className="mb-3">
                     <Form.Label>Title</Form.Label>
@@ -84,8 +84,8 @@ const CreateRecipePage = () => {
                         ref={categoryRef}
                     >
                         <option value="">Select category</option>
-                        {CATEGORIES.map((category) => {
-                            return <option value={category}>{category}</option>;
+                        {CATEGORIES.map((category, idx) => {
+                            return <option key={idx} value={category}>{category}</option>;
                         })}
                     </Form.Select>
                 </Form.Group>
