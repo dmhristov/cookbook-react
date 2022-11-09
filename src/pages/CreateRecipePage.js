@@ -8,11 +8,13 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { db, storage } from "../firebase";
 import { addDoc, Timestamp, collection } from "firebase/firestore";
+import { CATEGORIES } from "../constants/constants";
 
 const CreateRecipePage = () => {
     const titleRef = useRef();
     const ingredientsRef = useRef();
     const descriptionRef = useRef();
+    const categoryRef = useRef();
     const [image, setImage] = useState(null);
     const { currentUser } = useAuth();
     const navigate = useNavigate();
@@ -28,6 +30,7 @@ const CreateRecipePage = () => {
             title: titleRef.current.value,
             description: descriptionRef.current.value,
             ingredients: ingredientsRef.current.value,
+            category: categoryRef.current.value,
             imageUrl: imageUrl,
             likes: 0,
             date: Timestamp.now(),
@@ -72,6 +75,19 @@ const CreateRecipePage = () => {
                         rows={5}
                         placeholder="Description"
                     />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Select
+                        aria-label="Select category"
+                        required
+                        ref={categoryRef}
+                    >
+                        <option value="">Select category</option>
+                        {CATEGORIES.map((category) => {
+                            return <option value={category}>{category}</option>;
+                        })}
+                    </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Image</Form.Label>
