@@ -7,6 +7,8 @@ import Row from "react-bootstrap/Row";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
+const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Dessert",]
+
 const DashboardPage = () => {
     const [recipes, setRecipes] = useState([]);
     const recipesCollectionRef = collection(db, "recipes");
@@ -24,7 +26,7 @@ const DashboardPage = () => {
 
     return (
         <Stack gap={4} className="d-flex flex-column">
-            <DashboardNav></DashboardNav>
+            <DashboardNav categories={CATEGORIES}></DashboardNav>
             <Container className="flex-grow-1 m-auto">
                 <Row className="gap-2">
                     {recipes.map((r) => (
