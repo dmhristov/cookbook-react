@@ -32,7 +32,7 @@ const CreateRecipePage = () => {
             ingredients: ingredientsRef.current.value,
             category: categoryRef.current.value,
             imageUrl: imageUrl,
-            likes: 0,
+            likes: [],
             date: Timestamp.now(),
         });
 
