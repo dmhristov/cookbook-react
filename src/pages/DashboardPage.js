@@ -57,8 +57,10 @@ const DashboardPage = () => {
             <Container className="flex-grow-1 m-auto">
                 <Row className="gap-2">
                     {(!isFiltering ? recipes : filteredRecipes).map((r) => (
+                        
                         <RecipeCard
                             key={r.id}
+                            recipeId={r.id}
                             imageUrl={r.imageUrl}
                             title={r.title}
                             fromDate={r.date.toDate().toLocaleDateString()}

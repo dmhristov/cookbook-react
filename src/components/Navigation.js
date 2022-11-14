@@ -39,9 +39,6 @@ const Navigation = () => {
                 >
                     {currentUser ? (
                         <Nav className="">
-                            <Nav.Link href="/demo" className="">
-                                Demo
-                            </Nav.Link>
                             <Nav.Link href="/recipe/create" className="">
                                 Create recipe
                             </Nav.Link>

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { db } from "../firebase";
 
-const RecipeCard = ({ title, fromDate, imageUrl, authorId }) => {
+const RecipeCard = ({ title, fromDate, imageUrl, authorId, recipeId }) => {
     const [authorNames, setAuthorNames] = useState("");
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const RecipeCard = ({ title, fromDate, imageUrl, authorId }) => {
                         <p>From: {fromDate}</p>
                     </div>
                 </div>
-                <Button variant="primary">Recipe details</Button>
+                <Button as="a" href={`/details/${recipeId}`} variant="primary">Recipe details</Button>
             </Card.Body>
         </Card>
     );
