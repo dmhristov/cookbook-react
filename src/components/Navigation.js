@@ -10,7 +10,6 @@ import { useAuth } from "../context/AuthContext";
 
 const Navigation = () => {
     const { currentUser, logout } = useAuth();
-    // console.log(currentUser?.uid);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -53,13 +52,13 @@ const Navigation = () => {
                             >
                                 <p className="text-center">{currentUser?.email}</p>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.1">
+                                <NavDropdown.Item href="#">
                                     Action
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">
+                                <NavDropdown.Item href="#">
                                     Another action
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">
+                                <NavDropdown.Item href="#">
                                     Something
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
