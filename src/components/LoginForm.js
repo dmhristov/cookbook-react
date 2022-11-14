@@ -22,27 +22,21 @@ const LoginForm = () => {
                 emailRef.current.value.trim(),
                 passwordRef.current.value.trim()
             );
+            navigate("/");
             
         } catch (err) {
             const error = err.message;
-            console.log(err);
-            console.log(error);
-
             if (
                 error === "Firebase: Error (auth/invalid-email)." ||
-                error === "Firebase: Error (auth/wrong-password)."
+                error === "Firebase: Error (auth/wrong-password)."||
+                error === "Firebase: Error (auth/user-not-found)."
             ) {
                 setError("Invalid email address or password");
             } else {
                 setError("Could not login");
             }
         }
-
         setLoading(false);
-
-        if (error === "") {
-            navigate("/");
-        }
     };
 
     return (
