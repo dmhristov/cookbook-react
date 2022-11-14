@@ -4,8 +4,18 @@
     padding: 0;
     color: #343a40;
 }
+
+html, body {
+    height: 100%;
+    
+}
+body {
+    display: flex;
+}
+
 #root {
-    min-height: 100vh;
+    display: flex;
+    flex-grow: 1;
 }
 
 .HomePage__hero-image {
