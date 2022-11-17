@@ -49,6 +49,12 @@ body {
     background-color: #1971c2;
 }
 
+.form-control:focus, .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+} 
+
+
 @media screen and (max-width: 992px) {
     .login-img, .register-img {
         display: none;

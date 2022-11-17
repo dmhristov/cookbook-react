@@ -12,7 +12,7 @@ const HomePage = () => {
         >
             <h1 className="text-center">Welcome to COOKBOOK!</h1>
             <h2 className="text-center">Are you ready to get into your culinary dream?</h2>
-            <a href="/login" className="btn btn-primary">
+            <a href="/login" className="btn btn-success">
                 Get Started
             </a>
             <img

@@ -22,7 +22,7 @@ const Navigation = () => {
     };
 
     return (
-        <Navbar className="" bg="primary" variant="dark" expand="lg">
+        <Navbar className="" bg="success" variant="dark" expand="lg">
             <Container>
                 <Navbar.Brand
                     href="/"

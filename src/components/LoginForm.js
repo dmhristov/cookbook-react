@@ -62,7 +62,7 @@ const LoginForm = () => {
                     placeholder="Password"
                 />
             </Form.Group>
-            <Button disabled={loading} variant="primary" type="submit">
+            <Button disabled={loading} variant="success" type="submit">
                 Submit
             </Button>
         </Form>

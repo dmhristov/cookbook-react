@@ -23,7 +23,7 @@ const DashboardPage = () => {
             setRecipes(data);
         };
         getRecipes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const filterByCategory = (currentCategory) => {
@@ -57,7 +57,6 @@ const DashboardPage = () => {
             <Container className="flex-grow-1 m-auto">
                 <Row className="gap-2 justify-content-center">
                     {(!isFiltering ? recipes : filteredRecipes).map((r) => (
-                        
                         <RecipeCard
                             key={r.id}
                             recipeId={r.id}

@@ -11,7 +11,7 @@ const RegisterPage = () => {
 
     return (
         <Fragment>
-            <img className="register-img" src={RegisterImage} alt="registerImg"/>
+            <img className="register-img rounded" src={RegisterImage} alt="registerImg"/>
             <Container
                 className="d-flex flex-column align-items-center h-auto"
                 style={{ maxWidth: "400px" }}
@@ -20,7 +20,7 @@ const RegisterPage = () => {
 
                 <RegisterForm></RegisterForm>
                 <p className="text-muted">
-                    Already have an account? <Link to="/login">Login</Link>
+                    Already have an account? <Link className="text-success" to="/login">Login</Link>
                 </p>
                 {/* <p>Signed in as: {currentUser?.email}</p> */}
             </Container>

@@ -67,7 +67,7 @@ const DashboardNav = ({
                             aria-label="Search"
                             ref={searchInputRef}
                         />
-                        <Button variant="outline-primary" type="submit">
+                        <Button variant="outline-success" type="submit">
                             Search
                         </Button>
                     </Form>

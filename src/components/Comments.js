@@ -26,7 +26,7 @@ const Comments = () => {
                         </div>
                         <div className="mt-2 text-right">
                             <button
-                                className="btn btn-primary btn-sm shadow-none"
+                                className="btn btn-success btn-sm shadow-none"
                                 type="submit"
                             >
                                 Add comment
@@ -112,7 +112,7 @@ const Comments = () => {
                                 </div>
                                 <div className="mt-2 text-right">
                                     <button
-                                        className="btn btn-primary btn-sm shadow-none"
+                                        className="btn btn-success btn-sm shadow-none"
                                         type="submit"
                                     >
                                         Add reply

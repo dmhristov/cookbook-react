@@ -15,7 +15,7 @@ const RecipeCard = ({ title, fromDate, imageUrl, authorId, recipeId }) => {
             setAuthorNames(`${authorData.firstName} ${authorData.lastName}`);
         };
         getAuthorNames();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -29,14 +29,22 @@ const RecipeCard = ({ title, fromDate, imageUrl, authorId, recipeId }) => {
                 <Card.Title className="flex-grow-1">{title}</Card.Title>
                 <div className="">
                     <div>
-                        <p className="mb-0">Author: <Link className="fw-bold text-decoration-none text-primary" to="/">{authorNames}</Link></p>
+                        <p className="mb-0">
+                            Author:{" "}
+                            <Link
+                                className="fw-bold text-decoration-none text-success"
+                                to="/"
+                            >
+                                {authorNames}
+                            </Link>
+                        </p>
                         <p className="text-muted">From: {fromDate}</p>
                     </div>
                 </div>
                 <Button
                     as="a"
                     href={`/details/${recipeId}`}
-                    variant="primary"
+                    variant="success"
                     style={{ maxWidth: "16rem" }}
                 >
                     Recipe details

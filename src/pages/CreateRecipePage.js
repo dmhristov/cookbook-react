@@ -83,7 +83,7 @@ const CreateRecipePage = () => {
                         required
                         ref={categoryRef}
                     >
-                        <option value="">Select category</option>
+                        <option className="category-options" value="">Select category</option>
                         {CATEGORIES.map((category, idx) => {
                             return <option key={idx} value={category}>{category}</option>;
                         })}
@@ -98,7 +98,7 @@ const CreateRecipePage = () => {
                         onChange={handleImageUpload}
                     />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="success" type="submit">
                     Upload
                 </Button>
             </Form>

@@ -15,10 +15,10 @@ const LoginPage = () => {
                 <LoginForm></LoginForm>
                 <p className="text-muted">
                     Don't have an account yet?{" "}
-                    <Link to="/register">Register</Link>
+                    <Link className="text-success" to="/register">Register</Link>
                 </p>
             </Container>
-            <img className="login-img" src={LoginImage} alt="loginImg"/>
+            <img className="login-img rounded" src={LoginImage} alt="loginImg"/>
         </Fragment>
     );
 };
