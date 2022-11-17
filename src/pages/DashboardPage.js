@@ -55,7 +55,7 @@ const DashboardPage = () => {
                 resetFilter={resetFilter}
             ></DashboardNav>
             <Container className="flex-grow-1 m-auto">
-                <Row className="gap-2">
+                <Row className="gap-2 justify-content-center">
                     {(!isFiltering ? recipes : filteredRecipes).map((r) => (
                         
                         <RecipeCard

@@ -3,7 +3,7 @@ import Stack from "react-bootstrap/Stack";
 import Container from "react-bootstrap/Container";
 import loginImage from "../assets/images/login_image.jpg";
 import Comments from "../components/Comments";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -55,22 +55,22 @@ const DetailsPage = () => {
             </Stack>
             <Stack gap={2} className="ms-4">
                 <div>
-                    <h2>{recipe.title}</h2>
-                    <p>Author Name: {recipe.authorNames}</p>
+                    <h2 className="mb-3">{recipe.title}</h2>
+                    <p>Author Name: <Link className="fw-bold text-decoration-none text-primary" to="/">{recipe.authorNames}</Link></p>
                     <p>From: {recipe.date.toDate().toLocaleDateString()}</p>
                     {/* TODO -> refactor db and implement likes */}
-                    <div>
+                    <p>
                         Likes:
                         {}
-                    </div>
+                    </p>
                 </div>
                 <div>
-                    <h3>Ingredients:</h3>
-                    <span>{recipe.ingredients}</span>
+                    <h3 className="mb-3">Ingredients:</h3>
+                    <p style={{whiteSpace: "pre-wrap"}}>{recipe.ingredients}</p>
                 </div>
                 <div>
-                    <h3>Description</h3>
-                    <span>{recipe.description}</span>
+                    <h3 className="mb-3">Description</h3>
+                    <p style={{whiteSpace: "pre-wrap"}}>{recipe.description}</p>
                 </div>
             </Stack>
         </Container>
