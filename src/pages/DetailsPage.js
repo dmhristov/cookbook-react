@@ -53,7 +53,7 @@ const DetailsPage = () => {
                 ></img>
                 <Comments />
             </Stack>
-            <Stack gap={2} className="ms-4">
+            <Stack gap={2} className="ms-2" style={{ maxWidth: "26rem" }}>
                 <div>
                     <h2 className="mb-3">{recipe.title}</h2>
                     <p>Author Name: <Link className="fw-bold text-decoration-none text-primary" to="/">{recipe.authorNames}</Link></p>
