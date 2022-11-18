@@ -9,6 +9,7 @@ import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./pages/DashboardPage";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import DetailsPage from "./pages/DetailsPage";
+import EditRecipePage from "./pages/EditRecipePage";
 
 function App() {
     const {currentUser} = useAuth();
@@ -20,9 +21,10 @@ function App() {
                     <Route path="/" element={!currentUser ? <HomePage/> : <Navigate to="/dashboard"/>}/> 
                     <Route path="/login" element={!currentUser ? <LoginPage/> : <Navigate to="/dashboard"/>}/>
                     <Route path="/register" element={!currentUser ? <RegisterPage/> : <Navigate to="/dashboard"/>}/>
-                    <Route path="/recipe/details/:recipeId" element={currentUser ? <DetailsPage/> : <Navigate to="/login"/>}/>
                     <Route path="/dashboard" element={currentUser ? <DashboardPage/> : <Navigate to="/"/>}/>
+                    <Route path="/recipe/details/:recipeId" element={currentUser ? <DetailsPage/> : <Navigate to="/login"/>}/>
                     <Route path="/recipe/create" element={currentUser ? <CreateRecipePage/> : <Navigate to="/"/>}/>
+                    <Route path="/recipe/edit/:recipeId" element={currentUser ? <EditRecipePage/> : <Navigate to="/"/>}/>
                 </Routes>
             </Layout>
         </BrowserRouter>
