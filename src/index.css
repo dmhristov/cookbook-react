@@ -5,9 +5,9 @@
     color: #343a40;
 }
 
-html, body {
+html,
+body {
     height: 100%;
-    
 }
 body {
     display: flex;
@@ -49,14 +49,26 @@ body {
     background-color: #1971c2;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
     border-color: #28a745;
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-} 
+}
 
+.DetailsPage__like-icon {
+    transition: all 0.2s ease-in-out;
+}
+.DetailsPage__like-icon:hover {
+    transform: scale(1.2);
+}
+
+.RecipeDetails__button {
+    width: 8rem;
+}
 
 @media screen and (max-width: 992px) {
-    .login-img, .register-img {
+    .login-img,
+    .register-img {
         display: none;
     }
 }
