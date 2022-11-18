@@ -26,17 +26,18 @@ const DetailsPage = () => {
             return setPageNotFound(true);
         }
 
-        const authorRef = doc(db, "users", recipeData.authorId);
-        const authorResponse = await getDoc(authorRef);
-        const authorData = authorResponse.data();
+        try {
+            const authorRef = doc(db, "users", recipeData.authorId);
+            const authorResponse = await getDoc(authorRef);
+            const authorData = authorResponse.data();
+            setRecipe({
+                authorNames: `${authorData.firstName} ${authorData.lastName}`,
+                ...recipeData,
+            });
+        } catch (er) {
+            console.log(`${er}\nTODO -> handle exceptions`);
+        }
 
-        setRecipe({
-            authorNames: `${authorData.firstName} ${
-                authorData.lastName
-            }`,
-            ...recipeData,
-        });
-        
         setLoading(false);
     };
 
@@ -83,20 +84,24 @@ const DetailsPage = () => {
                                 From:{" "}
                                 {recipe.date.toDate().toLocaleDateString()}
                             </p>
-                            <Container className="d-flex ps-0">
-                                <Button
-                                    as="a"
-                                    href={`/recipe/edit/${recipeId}`}
-                                    className="RecipeDetails__button me-1"
-                                    variant="success"
-                                    
-                                >
-                                    Edit
-                                </Button>
-                                <Button className="RecipeDetails__button" variant="danger">
-                                    Delete
-                                </Button>
-                            </Container>
+                            {currentUserId === recipe.authorId && (
+                                <Container className="d-flex ps-0">
+                                    <Button
+                                        as="a"
+                                        href={`/recipe/edit/${recipeId}`}
+                                        className="RecipeDetails__button me-1"
+                                        variant="success"
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        className="RecipeDetails__button"
+                                        variant="danger"
+                                    >
+                                        Delete
+                                    </Button>
+                                </Container>
+                            )}
                         </div>
                         <p className="mt-1">
                             {recipe.likes.length}
