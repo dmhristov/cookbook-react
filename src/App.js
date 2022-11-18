@@ -20,7 +20,7 @@ function App() {
                     <Route path="/" element={!currentUser ? <HomePage/> : <Navigate to="/dashboard"/>}/> 
                     <Route path="/login" element={!currentUser ? <LoginPage/> : <Navigate to="/dashboard"/>}/>
                     <Route path="/register" element={!currentUser ? <RegisterPage/> : <Navigate to="/dashboard"/>}/>
-                    <Route path="/details/:recipeId" element={currentUser ? <DetailsPage/> : <Navigate to="/login"/>}/>
+                    <Route path="/recipe/details/:recipeId" element={currentUser ? <DetailsPage/> : <Navigate to="/login"/>}/>
                     <Route path="/dashboard" element={currentUser ? <DashboardPage/> : <Navigate to="/"/>}/>
                     <Route path="/recipe/create" element={currentUser ? <CreateRecipePage/> : <Navigate to="/"/>}/>
                 </Routes>

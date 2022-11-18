@@ -43,7 +43,7 @@ const RecipeCard = ({ title, fromDate, imageUrl, authorId, recipeId }) => {
                 </div>
                 <Button
                     as="a"
-                    href={`/details/${recipeId}`}
+                    href={`/recipe/details/${recipeId}`}
                     variant="success"
                     style={{ maxWidth: "16rem" }}
                 >
