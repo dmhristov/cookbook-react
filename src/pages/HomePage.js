@@ -17,7 +17,7 @@ const HomePage = () => {
             </a>
             <img
                 src={HomeImage}
-                className="HomePage__hero-image"
+                className="HomePage__hero-image rounded"
                 alt=""
                 // style={{ maxWidth: "1200px" }}
             />
