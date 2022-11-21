@@ -123,8 +123,8 @@ const DetailsPage = () => {
                     </Container>
                     <hr className="my-2 border-3 border-top border-success"></hr>
                     <Container className="d-flex justify-content-between">
-                        <div className="" style={{ maxWidth: "48rem" }}>
-                            <h3 className="me-3 mb-3">Description:</h3>
+                        <div className="flex-grow-1 me-3" style={{ maxWidth: "48rem" }}>
+                            <h3 className="mb-3">Description:</h3>
                             <p
                                 className="mb-5"
                                 style={{ whiteSpace: "pre-wrap" }}
@@ -134,7 +134,7 @@ const DetailsPage = () => {
 
                             <Comments />
                         </div>
-                        <div className="justify-self-end">
+                        <div className="justify-self-end me-1">
                             <h3 className="mb-3">Ingredients:</h3>
                             <p className="" style={{ whiteSpace: "pre-wrap" }}>
                                 {recipe.ingredients}
