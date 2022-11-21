@@ -4,16 +4,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import { CATEGORIES } from "../constants/constants";
-import { ref, deleteObject } from "firebase/storage";
+import {
+    ref,
+    deleteObject,
+    uploadBytes,
+    getDownloadURL,
+} from "firebase/storage";
 import { db, storage } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { v4 } from "uuid";
 
 const EditRecipePage = () => {
     const [image, setImage] = useState(null);
     const [recipe, setRecipe] = useState(null);
     const [pageNotFound, setPageNotFound] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const titleRef = useRef();
     const ingredientsRef = useRef();
     const descriptionRef = useRef();
@@ -29,6 +37,7 @@ const EditRecipePage = () => {
 
         if (!response.exists()) {
             setLoading(false);
+            // TODO -> implement pageNotFound
             return setPageNotFound(true);
         }
 
@@ -41,13 +50,38 @@ const EditRecipePage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-    //TODO -> add functionality to edit recipe and delete old image if changed
     const handleSubmit = async (ev) => {
+        ev.preventDefault();
+        if (currentUser.uid !== recipe.authorId) return;
 
-        // ev.preventDefault();
-        // const imgRef = ref(storage, recipe.imageUrl);
-        // const response = await deleteObject(imgRef);
+        const updatedRecipeFields = {
+            title: titleRef.current.value,
+            ingredients: ingredientsRef.current.value,
+            description: descriptionRef.current.value,
+            category: categoryRef.current.value,
+        };
+
+        if (image) {
+            const imageRef = ref(storage, `recipe-images/${v4() + image.name}`);
+            try {
+                await uploadBytes(imageRef, image);
+                const imageUrl = await getDownloadURL(imageRef);
+                updatedRecipeFields["imageUrl"] = imageUrl;
+
+                // Delete old image
+                const imgRef = ref(storage, recipe.imageUrl);
+                await deleteObject(imgRef);
+            } catch (err) {
+                return setError("Could not upload image. Please try again.");
+            }
+        }
+
+        try {
+            await updateDoc(recipeRef, updatedRecipeFields);
+            navigate(`/recipe/details/${recipeId}`);
+        } catch (err) {
+            setError("Something went wrong. Please try again.");
+        }
     };
 
     const handleImageChange = (ev) => {
@@ -57,6 +91,7 @@ const EditRecipePage = () => {
     return (
         <Container className="d-flex flex-column align-items-center">
             <h1 className="mb-4 mt-2">Edit Recipe</h1>
+            {error && <Alert variant="danger">{error}</Alert>}
             {!loading && (
                 <Form onSubmit={handleSubmit} className="my-2">
                     <Form.Group className="mb-3">
@@ -98,10 +133,15 @@ const EditRecipePage = () => {
                             required
                             ref={categoryRef}
                         >
-                            <option className="category-options" value={recipe.category}>
+                            <option
+                                className="category-options"
+                                value={recipe.category}
+                            >
                                 {recipe.category}
                             </option>
-                            {CATEGORIES.filter(c => c !== recipe.category).map((category, idx) => {
+                            {CATEGORIES.filter(
+                                (c) => c !== recipe.category
+                            ).map((category, idx) => {
                                 return (
                                     <option key={idx} value={category}>
                                         {category}
