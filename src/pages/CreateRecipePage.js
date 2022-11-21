@@ -1,9 +1,10 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { db, storage } from "../firebase";
@@ -16,27 +17,38 @@ const CreateRecipePage = () => {
     const descriptionRef = useRef();
     const categoryRef = useRef();
     const [image, setImage] = useState(null);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const { currentUser } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (ev) => {
         ev.preventDefault();
-        const imageRef = ref(storage, `recipe-images/${v4() + image?.name}`);
-        await uploadBytes(imageRef, image);
-        const imageUrl = await getDownloadURL(imageRef);
+        try {
+            setLoading(true);
+            const imageRef = ref(
+                storage,
+                `recipe-images/${v4() + image?.name}`
+            );
+            await uploadBytes(imageRef, image);
+            const imageUrl = await getDownloadURL(imageRef);
 
-        await addDoc(collection(db, "recipes"), {
-            authorId: currentUser.uid,
-            title: titleRef.current.value,
-            description: descriptionRef.current.value,
-            ingredients: ingredientsRef.current.value,
-            category: categoryRef.current.value,
-            imageUrl: imageUrl,
-            likes: [],
-            date: Timestamp.now(),
-        });
+            await addDoc(collection(db, "recipes"), {
+                authorId: currentUser.uid,
+                title: titleRef.current.value,
+                description: descriptionRef.current.value,
+                ingredients: ingredientsRef.current.value,
+                category: categoryRef.current.value,
+                imageUrl: imageUrl,
+                likes: [],
+                date: Timestamp.now(),
+            });
 
-        navigate("/");
+            navigate("/");
+        } catch (er) {
+            setError("Something went wrong. Please try again.");
+            setLoading(false);
+        }
     };
 
     const handleImageUpload = (ev) => {
@@ -46,6 +58,7 @@ const CreateRecipePage = () => {
     return (
         <Container className="d-flex flex-column align-items-center">
             <h1 className="mb-4 mt-2">Create Recipe</h1>
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit} className="my-2">
                 <Form.Group className="mb-3">
                     <Form.Label>Title</Form.Label>
@@ -83,9 +96,15 @@ const CreateRecipePage = () => {
                         required
                         ref={categoryRef}
                     >
-                        <option className="category-options" value="">Select category</option>
+                        <option className="category-options" value="">
+                            Select category
+                        </option>
                         {CATEGORIES.map((category, idx) => {
-                            return <option key={idx} value={category}>{category}</option>;
+                            return (
+                                <option key={idx} value={category}>
+                                    {category}
+                                </option>
+                            );
                         })}
                     </Form.Select>
                 </Form.Group>
@@ -98,7 +117,7 @@ const CreateRecipePage = () => {
                         onChange={handleImageUpload}
                     />
                 </Form.Group>
-                <Button variant="success" type="submit">
+                <Button variant="success" type="submit" disabled={loading}>
                     Upload
                 </Button>
             </Form>
