@@ -2,18 +2,28 @@ import React, { useState, useEffect } from "react";
 import Stack from "react-bootstrap/Stack";
 import Container from "react-bootstrap/Container";
 import Comments from "../components/Comments";
-import { Link, useParams } from "react-router-dom";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../firebase";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+    doc,
+    getDoc,
+    updateDoc,
+    deleteDoc,
+    arrayUnion,
+} from "firebase/firestore";
+import { db, storage } from "../firebase";
 import { Button } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
+import Modal from "../components/Modal";
+import { deleteObject, ref } from "firebase/storage";
 
 const DetailsPage = () => {
     const { recipeId } = useParams();
     const [recipe, setRecipe] = useState(null);
     const [pageNotFound, setPageNotFound] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isDeleting, setIsDeleting] = useState(false);
     const { currentUser } = useAuth();
+    const navigate = useNavigate();
     const currentUserId = currentUser.uid;
     const recipeRef = doc(db, "recipes", recipeId);
 
@@ -53,6 +63,23 @@ const DetailsPage = () => {
             likes: arrayUnion(currentUserId),
         });
         getRecipeData();
+    };
+
+    const handleModalClose = () => {
+        setIsDeleting(false);
+    };
+
+    const handleDelete = async () => {
+        try {
+            await deleteDoc(recipeRef);
+
+            navigate("/dashboard");
+        } catch (err) {
+            alert("Could not delete recipe.");
+        }
+
+        const imgRef = ref(storage, recipe.imageUrl);
+        await deleteObject(imgRef);
     };
 
     // TODO -> add page not found
@@ -97,6 +124,7 @@ const DetailsPage = () => {
                                     <Button
                                         className="RecipeDetails__button"
                                         variant="danger"
+                                        onClick={() => setIsDeleting(true)}
                                     >
                                         Delete
                                     </Button>
@@ -123,7 +151,10 @@ const DetailsPage = () => {
                     </Container>
                     <hr className="my-2 border-3 border-top border-success"></hr>
                     <Container className="d-flex justify-content-between">
-                        <div className="flex-grow-1 me-3" style={{ maxWidth: "48rem" }}>
+                        <div
+                            className="flex-grow-1 me-3"
+                            style={{ maxWidth: "48rem" }}
+                        >
                             <h3 className="mb-3">Description:</h3>
                             <p
                                 className="mb-5"
@@ -142,6 +173,14 @@ const DetailsPage = () => {
                         </div>
                     </Container>
                 </Stack>
+                {isDeleting && (
+                    <Modal
+                        show={isDeleting}
+                        onClose={handleModalClose}
+                        recipeTitle={recipe.title}
+                        onDelete={handleDelete}
+                    ></Modal>
+                )}
             </Container>
         )
     );
