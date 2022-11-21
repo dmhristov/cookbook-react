@@ -5,9 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useAuth } from "../context/AuthContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
-
-const DEFAULT_PROFILE_IMAGE_URL =
-    "https://firebasestorage.googleapis.com/v0/b/cookbook-ac1d9.appspot.com/o/profile-default.png?alt=media&token=1ebc7234-5bb1-4d61-b792-df8aa18a373a";
+import { DEFAULT_PROFILE_IMAGE_URL } from "../constants/constants";
 
 const RegisterForm = () => {
     const { register } = useAuth();
@@ -53,7 +51,7 @@ const RegisterForm = () => {
             });
         } catch (err) {
             const error = err.message;
-            
+
             if (error === "Firebase: Error (auth/invalid-email).") {
                 setError("Invalid email address");
             } else if (
