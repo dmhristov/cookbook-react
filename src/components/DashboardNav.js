@@ -6,26 +6,23 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-const DashboardNav = ({
-    categories,
-    filterCategory,
-    resetFilter,
-    onSearch,
-}) => {
+const DashboardNav = ({ categories, dispatch, resetFilter }) => {
     const searchInputRef = useRef();
 
     const handleCategoryChange = (ev) => {
         const category = ev.target.value;
-        filterCategory(category);
+        dispatch({ type: "FILTER", payload: category });
     };
 
     const handleSearch = (ev) => {
         ev.preventDefault();
+
         const value = searchInputRef.current.value.trim();
         if (!value) {
             return resetFilter();
         }
-        onSearch(value);
+
+        dispatch({ type: "SEARCH", payload: value });
     };
 
     return (
