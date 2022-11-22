@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useMemo } from "react";
 import Stack from "react-bootstrap/Stack";
 import DashboardNav from "../components/DashboardNav";
 import RecipeCard from "../components/RecipeCard";
@@ -11,7 +11,7 @@ import { CATEGORIES } from "../constants/constants";
 const DashboardPage = () => {
     const [recipes, setRecipes] = useState([]);
     const [isFiltering, setIsFiltering] = useState(false);
-    const recipesCollectionRef = collection(db, "recipes");
+    const recipesCollectionRef = useMemo(() => collection(db, "recipes"), []);
 
     const [filteredRecipes, dispatch] = useReducer((state, action) => {
         setIsFiltering(true);
@@ -37,8 +37,7 @@ const DashboardPage = () => {
             setRecipes(data);
         };
         getRecipes();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [recipesCollectionRef]);
 
     const resetFilter = () => {
         setIsFiltering(false);

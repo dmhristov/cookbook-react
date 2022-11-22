@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Stack from "react-bootstrap/Stack";
 import Container from "react-bootstrap/Container";
 import Comments from "../components/Comments";
@@ -25,9 +25,9 @@ const DetailsPage = () => {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
     const currentUserId = currentUser.uid;
-    const recipeRef = doc(db, "recipes", recipeId);
+    const recipeRef = useMemo(() => doc(db, "recipes", recipeId), [recipeId]);
 
-    const getRecipeData = async () => {
+    const getRecipeData = useCallback(async () => {
         const response = await getDoc(recipeRef);
         const recipeData = response.data();
 
@@ -49,12 +49,11 @@ const DetailsPage = () => {
         }
 
         setLoading(false);
-    };
+    }, [recipeRef]);
 
     useEffect(() => {
         getRecipeData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [getRecipeData]);
 
     const handleLike = async () => {
         if (recipe.likes.includes(currentUserId)) return;

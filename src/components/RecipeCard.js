@@ -15,8 +15,7 @@ const RecipeCard = ({ title, fromDate, imageUrl, authorId, recipeId }) => {
             setAuthorNames(`${authorData.firstName} ${authorData.lastName}`);
         };
         getAuthorNames();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authorId]);
 
     return (
         <Card style={{ width: "20rem", height: "24rem" }}>

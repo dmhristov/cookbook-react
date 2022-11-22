@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
@@ -29,26 +29,24 @@ const EditRecipePage = () => {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
     const { recipeId } = useParams();
-    const recipeRef = doc(db, "recipes", recipeId);
-
-    const getRecipeData = async () => {
-        const response = await getDoc(recipeRef);
-        const recipeData = response.data();
-
-        if (!response.exists()) {
-            setLoading(false);
-            // TODO -> implement pageNotFound
-            return setPageNotFound(true);
-        }
-
-        setRecipe(recipeData);
-        setLoading(false);
-    };
+    const recipeRef = useMemo(() => doc(db, "recipes", recipeId), [recipeId]);
 
     useEffect(() => {
+        const getRecipeData = async () => {
+            const response = await getDoc(recipeRef);
+            const recipeData = response.data();
+
+            if (!response.exists()) {
+                setLoading(false);
+                // TODO -> implement pageNotFound
+                return setPageNotFound(true);
+            }
+
+            setRecipe(recipeData);
+            setLoading(false);
+        };
         getRecipeData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [recipeRef]);
 
     const handleSubmit = async (ev) => {
         ev.preventDefault();
