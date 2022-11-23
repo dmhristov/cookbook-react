@@ -15,6 +15,7 @@ import {
 import { db, storage } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { v4 } from "uuid";
+import { inputsAreValid } from "../utils/validators";
 
 const EditRecipePage = () => {
     const [image, setImage] = useState(null);
@@ -51,6 +52,13 @@ const EditRecipePage = () => {
     const handleSubmit = async (ev) => {
         ev.preventDefault();
         if (currentUser.uid !== recipe.authorId) return;
+
+        const fieldsAreNotEmpty = inputsAreValid(
+            titleRef.current.value,
+            descriptionRef.current.value,
+            ingredientsRef.current.value
+        );
+        if (!fieldsAreNotEmpty) return setError("Please fill all fields.");
 
         const updatedRecipeFields = {
             title: titleRef.current.value,

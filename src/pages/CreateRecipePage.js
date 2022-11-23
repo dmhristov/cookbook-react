@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { inputsAreValid } from "../utils/validators";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -24,6 +25,14 @@ const CreateRecipePage = () => {
 
     const handleSubmit = async (ev) => {
         ev.preventDefault();
+
+        const fieldsAreNotEmpty = inputsAreValid(
+            titleRef.current.value,
+            descriptionRef.current.value,
+            ingredientsRef.current.value
+        );
+        if (!fieldsAreNotEmpty) return setError("Please fill all fields.");
+
         try {
             setLoading(true);
             const imageRef = ref(
